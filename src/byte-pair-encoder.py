@@ -50,7 +50,6 @@ def apply_bpe(word: str, merges: list[(str,str)]) -> list[str]:
         i =0
         tokenized=[]
         while i < len(symbols):
-            print(f"i=+ {i}, {len(symbols)}")
             if (i < len(symbols)-1) and symbols[i] == a and symbols[i+1] == b:
                 tokenized.append((symbols[i] + symbols[i+1]))
                 i+=2
@@ -60,11 +59,24 @@ def apply_bpe(word: str, merges: list[(str,str)]) -> list[str]:
         symbols=tokenized
     return tokenized
 
+def build_vocab(symbols: list[str], merges: list[(str, str)]):
+    vocab = set(symbols)
+    print(symbols)
+    for (a,b) in merges:
+        vocab.add(a+b)
+    
+    vocab = list(vocab)
+    vocab.sort()
+
+    token_to_id = {tok: idx for idx, tok in enumerate(vocab)}
+    id_to_token = {idx: tok for tok, idx in token_to_id.items()}
+    return vocab, token_to_id, id_to_token
 
 if __name__ == "__main__":
 
     print("=== word_to_symbols ===")
     tokenized_words = word_to_symbols("Helloworld")
+    symbols = tokenized_words.copy() 
     print(tokenized_words)
     print("\n")
 
@@ -84,6 +96,13 @@ if __name__ == "__main__":
     print("\n")
     
     print("=== apply_bpe ===")
-    new_tokenized_words = apply_bpe("Hellofromworld", new_tokenized_words)
-    print(new_tokenized_words)
+    tokens_result = apply_bpe("Hellofromworld", new_tokenized_words)
+    print(tokens_result)
+    print("\n")
+
+    print("=== build_vocab ===")
+    vocab, token_to_id, id_to_token = build_vocab(symbols, new_tokenized_words)
+    print(f"vocab = {vocab}")
+    print(f"token_to_id = {token_to_id}")
+    print(f"id_to_token = {id_to_token}")
     print("\n")
