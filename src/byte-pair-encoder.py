@@ -44,6 +44,23 @@ def keep_merging(n: int, tokenized_words: list[list[str]]):
     return merges
 
 
+def apply_bpe(word: str, merges: list[(str,str)]) -> list[str]:
+    symbols=word_to_symbols(word)
+    for (a,b) in merges:
+        i =0
+        tokenized=[]
+        while i < len(symbols):
+            print(f"i=+ {i}, {len(symbols)}")
+            if (i < len(symbols)-1) and symbols[i] == a and symbols[i+1] == b:
+                tokenized.append((symbols[i] + symbols[i+1]))
+                i+=2
+            else:
+                tokenized.append(symbols[i])
+                i+=1
+        symbols=tokenized
+    return tokenized
+
+
 if __name__ == "__main__":
 
     print("=== word_to_symbols ===")
@@ -55,13 +72,18 @@ if __name__ == "__main__":
     pair_count = get_pair_counts([tokenized_words])
     print(pair_count)
     print("\n")
-
+    '''
     print("=== merge_pair ===")
     tokenized_words = merge_pair(pair_count, [tokenized_words])
     print(tokenized_words)
     print("\n")
-
+    '''
     print("=== keep_merging ===")
-    new_tokenized_words = keep_merging(10, tokenized_words)
+    new_tokenized_words = keep_merging(10, [tokenized_words])
+    print(new_tokenized_words)
+    print("\n")
+    
+    print("=== apply_bpe ===")
+    new_tokenized_words = apply_bpe("Hellofromworld", new_tokenized_words)
     print(new_tokenized_words)
     print("\n")
