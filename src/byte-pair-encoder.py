@@ -14,6 +14,10 @@ def get_pair_counts(tokenized_words: list[list[str]]) -> dict[(str,str), int]:
             pair_count_map[pair] = pair_count_map.get(pair, 0) + 1
     return pair_count_map
 
+def one_hot_encode(token_id, size):
+    vector = [0] * size
+    vector[token_id] = 1
+    return vector
 
 def merge_pair(pair_count_map: dict[(str,str), int], tokenized_words: list[list[str]]) -> list[list[str]]:
     top_pair_key = max(pair_count_map, key=pair_count_map.get)
@@ -106,3 +110,9 @@ if __name__ == "__main__":
     print(f"token_to_id = {token_to_id}")
     print(f"id_to_token = {id_to_token}")
     print("\n")
+
+    print("=== one_hot_encoding ===")
+    encoded_vector = one_hot_encode(3, 64)
+    print(f"encoded_vector = {encoded_vector}")
+    print("\n")
+
