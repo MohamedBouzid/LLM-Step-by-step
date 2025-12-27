@@ -1,1 +1,3 @@
 /myenv
+src/bpe/__pycache__
+tests/__pycache__
