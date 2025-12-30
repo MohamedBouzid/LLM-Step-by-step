@@ -1,6 +1,6 @@
 # tests/test_byte_pair_encoder.py
 import pytest
-from bpe.byte_pair_encoder import BytePairEncoder
+from bpe.encoder.byte_pair_encoder import BytePairEncoder
 
 @pytest.fixture
 def bpe():
@@ -55,3 +55,13 @@ def test_build_vocab(bpe):
     assert vocab == expected_vocab
     assert token_to_id == expected_token_to_id
     assert id_to_token == expected_id_to_token
+
+
+def test_from_text_to_ids(bpe):
+    text = "Hello world from Tunisia"
+    symbols = bpe.sentence_to_symbols(text)
+    new_tokenized_words = bpe.keep_merging(25, symbols)
+    vocab, token_to_id, id_to_token = bpe.build_vocab(symbols, new_tokenized_words)
+    ids = bpe.from_text_to_ids(text, new_tokenized_words, token_to_id)
+    expected_token_ids = [5, 24, 18, 13]
+    assert ids == expected_token_ids

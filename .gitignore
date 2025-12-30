@@ -1,3 +1,7 @@
 /myenv
 src/bpe/__pycache__
+src/bpe/encoder/__pycache__
+src/bpe/model/__pycache__
 tests/__pycache__
+tests/model/__pycache__
+llm.egg-info

@@ -97,7 +97,20 @@ class BytePairEncoder:
 
         return pair_ids
 
+    def apply_bpe_on_sentence(self, sentence: str, merges: list[(str,str)]) -> list[str]:
+        words = sentence.split()
+        tokens = []
+        for word in words:
+            tokens+=self.apply_bpe(word, merges)
+        return tokens
 
+    def from_text_to_ids(self, text: str, merges, token_to_id):
+        symbols = self.apply_bpe_on_sentence(text, merges)
+        token_ids : list = []
+        for symbol in symbols:
+            token_ids.append(token_to_id.get(symbol))
+        return token_ids
+    
 if __name__ == "__main__":
     
     bpe = BytePairEncoder()
