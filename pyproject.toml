@@ -7,7 +7,7 @@ name = "llm"
 version = "0.1.0"
 dependencies = [    
      "torch>=2.0",          # CPU-only: "torch"
-                           # GPU  (CUDA 12.1 example): "torch>=2.0+cu121"
+     "matplotlib",                      # GPU  (CUDA 12.1 example): "torch>=2.0+cu121"
 ]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
